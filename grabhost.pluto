@@ -155,5 +155,5 @@ end)
 
 
 local misc = menu.list(my_root, "Misc", {''}, "")
-misc:divider("Version: 1.0")
+misc:divider("Version: 1.01")
 misc:hyperlink("My Github Repository","https://github.com/Kizzer2003/NugsScript")
