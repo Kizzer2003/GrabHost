@@ -23,7 +23,7 @@ if auto_updater == true then error("Invalid auto-updater lib. Please delete your
 
 
 auto_updater.run_auto_update({
-    source_url="https://raw.githubusercontent.com/Kizzer2003/NugsScript/main/grabhost.pluto",
+    source_url="https://raw.githubusercontent.com/Kizzer2003/GrabHost/main/grabhost.pluto",
     script_relpath=SCRIPT_RELPATH,
     check_interval=10
 })
