@@ -26,7 +26,7 @@ auto_updater.run_auto_update({
     source_url="https://raw.githubusercontent.com/Kizzer2003/GrabHost/main/grabhost.pluto",
     script_relpath=SCRIPT_RELPATH,
     verify_file_begins_with=nil,
-    check_interval=10,
+    check_interval=3600,
 })
 
 
@@ -159,7 +159,9 @@ local misc = menu.list(my_root, "Misc", {''}, "")
 misc:divider("Version: 1.05")
 misc:hyperlink("My Github Repository","https://github.com/Kizzer2003/GrabHost")
 misc:action("Check for Update", {}, "The script will automatically check for updates at most daily, but you can manually check using this option anytime.", function()
-    auto_update_config.check_interval = 0
-    util.toast("Checking for updates")
-    auto_updater.run_auto_update(auto_update_config)
+    util.toast("This currently does not work.")
+    util.yield()
+    --auto_update_config.check_interval = 0
+    --util.toast("Checking for updates")
+    --auto_updater.run_auto_update(auto_update_config)
 end)
