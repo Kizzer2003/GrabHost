@@ -29,7 +29,7 @@ auto_updater.run_auto_update({
 })
 
 
-script_version = 1.02
+script_version = 1.03
 
 
 util.keep_running()
