@@ -24,12 +24,12 @@ if auto_updater == true then error("Invalid auto-updater lib. Please delete your
 
 auto_updater.run_auto_update({
     source_url="https://raw.githubusercontent.com/Kizzer2003/GrabHost/main/grabhost.pluto",
-    script_relpath=SCRIPT_RELPATH,
-    check_interval=10
+    script_relpath="lib/auto-updater.lua",
+    check_interval=10,
 })
 
 
-script_version = 1.01
+script_version = 1.02
 
 
 util.keep_running()
@@ -157,3 +157,8 @@ end)
 local misc = menu.list(my_root, "Misc", {''}, "")
 misc:divider("Version: 1.02")
 misc:hyperlink("My Github Repository","https://github.com/Kizzer2003/GrabHost")
+misc:action("Check for Update", {}, "The script will automatically check for updates at most daily, but you can manually check using this option anytime.", function()
+    auto_update_config.check_interval = 0
+    util.toast("Checking for updates")
+    auto_updater.run_auto_update(auto_update_config)
+end)
