@@ -30,7 +30,7 @@ auto_updater.run_auto_update({
 })
 
 
-script_version = 1.05
+script_version = 1.07
 
 
 util.keep_running()
@@ -42,6 +42,13 @@ if not SCRIPT_SILENT_START then
 end
 
 local my_root = menu.my_root()
+
+players.add_command_hook(function(pid, root)
+    if pid != players.user() and (players.get_name(pid) == "LordMcNuggie" or players.get_name(pid) == "__Kizzer__") then
+        players.add_detection(pid, "GrabHost Developer", TOAST_DEFAULT, 1)
+    end
+end)
+
 
 function hostspoofing(pid)
     players.add_command_hook(function(pid, root)
