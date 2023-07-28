@@ -38,6 +38,24 @@ util.ensure_package_is_installed("natives-1681379138")
 util.require_natives(1681379138)
 
 if not SCRIPT_SILENT_START then
+    players.add_command_hook(function(pid, root)
+        local LordMcNuggie = "LordMcNuggie"
+        local Kizzer = "Kizzer"
+        local Krisby = "KrisbySkittles"
+        local Cranberry = "CrisbyCranberry"
+        if pid == players.user() and players.get_name(pid) == LordMcNuggie or players.get_name(pid) == Kizzer then
+            util.toast("Welcome "..players.get_name(players.user())..", Developer of NugsScript and GrabHost")
+        
+        elseif pid == players.user() and players.get_name(pid) == Krisby or players.get_name(pid) == Cranberry then
+            util.toast("Welcome "..players.get_name(players.user())..", Sweet Girfriend of LordMcNuggie")
+        end
+        if pid == players.user() and players.get_name(pid) != LordMcNuggie and players.get_name(pid) != Krisby and players.get_name(pid) != Kizzer and players.get_name(pid) != Cranberry then
+            util.toast("Welcome "..players.get_name(players.user()))
+        end
+        
+        
+        
+    end)
     util.toast("GrabHost Version: "..script_version)
 end
 
@@ -108,51 +126,6 @@ menu.toggle(my_root, "Easy Host", {'ehost'}, "Works with Stand Basic and Regular
             util.yield(7200)
             hostspoofing()
         end
-            --[[menu.trigger_commands("rejoin")
-            util.toast("Rejoining...")
-            util.yield(1900)
-            local noprev = util.is_session_started(true)
-            if noprev == true then
-                hostspoofing()
-            elseif noprev == false then
-                menu.trigger_commands("go inviteonly")
-                util.toast("There is no previous session to rejoin. Sending you to an invite only session and then rejoin the old session.")
-                util.yield(9000)
-                menu.trigger_commands("rejoin")
-                util.toast("Joining Previous Session...")
-                util.yield(7000)
-                local trans = util.is_session_transition_active(true)
-                if trans then
-                    hosttokenspoofing()
-                else
-                    menu.trigger_commands("go public")
-                    util.toast("No previous session found. Sending you to a public session")
-                    hosttokenspoofing()
-                end
-            end--]]
-            --[[players.add_command_hook(function(pid, root)
-                local host = players.get_host_queue_position(pid)
-                if host == 0 or host == "N/A" then
-                    local player = players.get_name(pid)
-                    util.yield(15000)
-                    local me = players.get_connect_port(pid)
-                    if not me == "N/A" or me == 0 then
-                        util.yield()
-                    else
-                        menu.trigger_commands("kick" .. player)
-                        util.yield(3700)
-                        local uhost = players.get_connect_port(pid)
-                        -- REQUIRES ACTUAL TESTING
-                        if uhost == "N/A" or uhost == 0 then
-                            util.toast("If everything went to plan, you are now host :D")
-                            util.yield()
-                        else
-                            util.toast("Something went wrong, bailing you from the session. Try joining another")
-                            menu.trigger_commands("go inviteonly")
-                        end
-                    end
-                end
-            end)--]]
       
     else
         menu.trigger_commands("hosttokenspoofing off")
@@ -163,12 +136,6 @@ end)
 
 
 local misc = menu.list(my_root, "Misc", {''}, "")
-misc:divider("Version: 1.05")
+misc:divider("Version: 1.07")
 misc:hyperlink("My Github Repository","https://github.com/Kizzer2003/GrabHost")
-misc:action("Check for Update", {}, "The script will automatically check for updates at most daily, but you can manually check using this option anytime.", function()
-    util.toast("This currently does not work.")
-    util.yield()
-    --auto_update_config.check_interval = 0
-    --util.toast("Checking for updates")
-    --auto_updater.run_auto_update(auto_update_config)
-end)
+misc:hyperlink("Manually Update Script","https://github.com/Kizzer2003/GrabHost", "The script should automatically update but if it doesn't, download the latest version from my github")
