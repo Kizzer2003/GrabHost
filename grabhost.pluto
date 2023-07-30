@@ -30,7 +30,7 @@ auto_updater.run_auto_update({
 })
 
 
-script_version = 1.07
+script_version = 2
 
 
 util.keep_running()
@@ -70,33 +70,38 @@ end)
 
 function hostspoofing(pid)
     players.add_command_hook(function(pid, root)
-        local host = players.get_host_queue_position(pid)
-        if host == 0 or host == "N/A" then
-            local player = players.get_name(pid)
-            util.yield(10000)
-            local me = players.get_connect_port(pid)
-            if not me == "N/A" or me == 0 then
+        if util.is_session_transition_active() then
+            util.toast("Waiting to join session...")
+            util.on_transition_finished(function()
                 util.yield()
-            else
-                util.yield(800)
-                menu.trigger_commands("kick" .. player)
-                util.yield(4300)
-                local uhost = players.get_connect_port(pid)
-                -- REQUIRES ACTUAL TESTING
-                if uhost == "N/A" or uhost == 0 then
-                    util.toast("If everything went to plan, you are now host :D")
-                    util.yield()
-                else
-                    util.toast("Something went wrong, bailing you from the session. Try joining another")
-                    util.yield(500)
-                    -- MAKE A CHECK TO SEE IF YOU ARE IN A SESSION BY YOURSELF (SUCH AS FINDING THE ID AND NAME OF ALL PLAYERS AND THEN MAKING AN IF STATEMENT TO CHECK TO SEE IF THERE ARE MORE PLAYERS
-                    -- THAN ONE AND IF SO, EXECUTE BE ALONE
-                    menu.trigger_commands("bealone")
-                    util.yield(6000)
-                    menu.trigger_commands("go public")
-                    util.toast("Joining Public Session")
+                local host = players.get_host_queue_position(pid)
+                if host == 0 or host == "N/A" then
+                    local player = players.get_name(pid)
+                    local me = players.get_host_queue_position(players.user())
+                    if me == 0 or me == "N/A" then
+                        util.yield()
+                    else
+                        util.toast("Kicking Host...")
+                        util.yield(800)
+                        menu.trigger_commands("kick" .. player)
+                        util.yield(3400)
+                        local uhost = players.get_host_queue_position(players.user())
+                        if uhost == "N/A" or uhost == 0 then
+                            util.toast("If everything went to plan, you are now host :D")
+                            util.yield()
+                        else
+                            util.toast("Something went wrong, bailing you from the session. Try joining another")
+                            util.yield(500)
+                            -- MAKE A CHECK TO SEE IF YOU ARE IN A SESSION BY YOURSELF (SUCH AS FINDING THE ID AND NAME OF ALL PLAYERS AND THEN MAKING AN IF STATEMENT TO CHECK TO SEE IF THERE ARE MORE PLAYERS
+                            -- THAN ONE AND IF SO, EXECUTE BE ALONE
+                            menu.trigger_commands("bealone")
+                            util.yield(2600)
+                            menu.trigger_commands("go public")
+                            util.toast("Joining Public Session")
+                        end
+                    end
                 end
-            end
+            end)
         end
     end)
 end
@@ -111,31 +116,27 @@ menu.toggle(my_root, "Easy Host", {'ehost'}, "Works with Stand Basic and Regular
         -- session for this to work previously - Could be improved upon but is suitable for now
         local sessionstart = util.is_session_started(false) 
         if not sessionstart then 
-            menu.trigger_commands("go solo")
-            util.toast("Joining Online")
-            util.yield(10000)
             hostspoofing()
-            util.yield(5700)
             menu.trigger_commands("go public")
+            util.toast("Joining Online")
         elseif sessionstart == true then
             menu.trigger_commands("bealone")
             util.toast("Leaving Session...")
             util.yield(4000)
             util.toast("Rejoining Previous Session...")
             menu.trigger_commands("rejoin")
-            util.yield(7200)
             hostspoofing()
         end
       
     else
         menu.trigger_commands("hosttokenspoofing off")
-        util.toast("Host Token Spoofing is now off! Your token value is saved at the best value possible.")
+        util.toast("Host Token Spoofing is now off! Make sure you change sessions to apply remove your spoofed host token")
     end
 end)
 
 
 
 local misc = menu.list(my_root, "Misc", {''}, "")
-misc:divider("Version: 1.07")
-misc:hyperlink("My Github Repository","https://github.com/Kizzer2003/GrabHost")
+misc:divider("Version: 2")
+misc:hyperlink("My Github Repository - Changelog is also provided here","https://github.com/Kizzer2003/GrabHost")
 misc:hyperlink("Manually Update Script","https://github.com/Kizzer2003/GrabHost", "The script should automatically update but if it doesn't, download the latest version from my github")
