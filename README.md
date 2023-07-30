@@ -2,7 +2,7 @@
 
 Uses the STANDAPI to automatically spoof your host token to the highest value, and then kick the host upon joining a session. Made mainly for Basic and Regular users that cannot use the Ultimate built-in version.
 
-#Changelog 
+# Changelog 
 V2
 - Added a process to check if the session transition (whether seamless session switching is on or not) has completed and if so, completes the rest of the function
 - Modified the function that actually kicks the host once you have joined the session to be more efficient
