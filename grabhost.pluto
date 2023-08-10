@@ -30,7 +30,7 @@ auto_updater.run_auto_update({
 })
 
 
-script_version = 2
+script_version = 2.1
 
 
 util.keep_running()
@@ -82,9 +82,9 @@ function hostspoofing(pid)
                         util.yield()
                     else
                         util.toast("Kicking Host...")
-                        util.yield(800)
+                        util.yield(500)
                         menu.trigger_commands("kick" .. player)
-                        util.yield(3400)
+                        util.yield(2200)
                         local uhost = players.get_host_queue_position(players.user())
                         if uhost == "N/A" or uhost == 0 then
                             util.toast("If everything went to plan, you are now host :D")
@@ -137,6 +137,6 @@ end)
 
 
 local misc = menu.list(my_root, "Misc", {''}, "")
-misc:divider("Version: 2")
+misc:divider("Version: 2.1")
 misc:hyperlink("My Github Repository - Changelog is also provided here","https://github.com/Kizzer2003/GrabHost")
 misc:hyperlink("Manually Update Script","https://github.com/Kizzer2003/GrabHost", "The script should automatically update but if it doesn't, download the latest version from my github")
