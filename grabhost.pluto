@@ -30,7 +30,7 @@ auto_updater.run_auto_update({
 })
 
 
-script_version = 2.1
+script_version = 2.2
 
 
 util.keep_running()
@@ -81,23 +81,27 @@ function hostspoofing(pid)
                     if me == 0 or me == "N/A" then
                         util.yield()
                     else
-                        util.toast("Kicking Host...")
-                        util.yield(500)
-                        menu.trigger_commands("kick" .. player)
-                        util.yield(2200)
-                        local uhost = players.get_host_queue_position(players.user())
-                        if uhost == "N/A" or uhost == 0 then
-                            util.toast("If everything went to plan, you are now host :D")
-                            util.yield()
+                        if player == "__Kizzer__" or player == "LordMcNuggie" then
+                            util.toast("You can't kick the developer of the script ;)")
+                        elseif player == "KrisbySkittles" then
+                            util.toast("You can't kick the developer's girlfriend :)")
                         else
-                            util.toast("Something went wrong, bailing you from the session. Try joining another")
+                            util.toast("Kicking Host...")
                             util.yield(500)
-                            -- MAKE A CHECK TO SEE IF YOU ARE IN A SESSION BY YOURSELF (SUCH AS FINDING THE ID AND NAME OF ALL PLAYERS AND THEN MAKING AN IF STATEMENT TO CHECK TO SEE IF THERE ARE MORE PLAYERS
-                            -- THAN ONE AND IF SO, EXECUTE BE ALONE
-                            menu.trigger_commands("bealone")
-                            util.yield(2600)
-                            menu.trigger_commands("go public")
-                            util.toast("Joining Public Session")
+                            menu.trigger_commands("kick" .. player)
+                            util.yield(2200)
+                            local uhost = players.get_host_queue_position(players.user())
+                            if uhost == "N/A" or uhost == 0 then
+                                util.toast("If everything went to plan, you are now host :D")
+                                util.yield()
+                            else
+                                util.toast("Something went wrong, bailing you from the session. Try joining another")
+                                util.yield(500)
+                                menu.trigger_commands("bealone")
+                                util.yield(2600)
+                                menu.trigger_commands("go public")
+                                util.toast("Joining Public Session")
+                            end
                         end
                     end
                 end
@@ -108,12 +112,8 @@ end
 
 menu.toggle(my_root, "Easy Host", {'ehost'}, "Works with Stand Basic and Regular. Enables Host Token Spoofing, loads you into a session then kicks the host", function(toggled)
     if toggled then
-        --local hostref = menu.ref_by_command_name("hosttokenspoofing")
         menu.trigger_commands("hosttokenspoofing on")
         menu.trigger_commands("spoofedhosttoken 0000000000000000")
-        -- Old version that did not rejoin util.toast("You will need to rejoin or switch sessions for this to apply")
-        -- Go solo session because it loads quickly and bypasses the need for a user needing to join a previous
-        -- session for this to work previously - Could be improved upon but is suitable for now
         local sessionstart = util.is_session_started(false) 
         if not sessionstart then 
             hostspoofing()
@@ -137,6 +137,6 @@ end)
 
 
 local misc = menu.list(my_root, "Misc", {''}, "")
-misc:divider("Version: 2.1")
+misc:divider("Version: 2.2")
 misc:hyperlink("My Github Repository - Changelog is also provided here","https://github.com/Kizzer2003/GrabHost")
 misc:hyperlink("Manually Update Script","https://github.com/Kizzer2003/GrabHost", "The script should automatically update but if it doesn't, download the latest version from my github")
