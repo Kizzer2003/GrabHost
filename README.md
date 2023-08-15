@@ -3,6 +3,9 @@
 Uses the STANDAPI to automatically spoof your host token to the highest value, and then kick the host upon joining a session. Made mainly for Basic and Regular users that cannot use the Ultimate built-in version.
 
 # Changelog 
+V3
+- Coming Soon...
+
 V2.1 - V2.2
 - Slightly increased host-kicking speed
 - Added developer checks (checks for me (the developer) and my girlfriend)
