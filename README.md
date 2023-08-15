@@ -5,7 +5,7 @@ Uses the STANDAPI to automatically spoof your host token to the highest value, a
 # Changelog 
 V2.1 - V2.2
 - Slightly increased host-kicking speed
-- Added developer checks (checks for me, the developer and my girlfriend)
+- Added developer checks (checks for me (the developer) and my girlfriend)
 
 V2
 - Added a process to check if the session transition (whether seamless session switching is on or not) has completed and if so, completes the rest of the function
