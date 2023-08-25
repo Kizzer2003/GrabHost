@@ -137,10 +137,9 @@ end)
 
 local misc = menu.list(my_root, "Misc", {''}, "")
 misc:divider("Version: 2.3.5")
-misc:hyperlink("My Github Repository - Changelog is also provided here","https://github.com/Kizzer2003/GrabHost")
+misc:hyperlink("My Github Repository - Changelog is also provided here and you can manually update the script","https://github.com/Kizzer2003/GrabHost")
 misc:action("Update Script", {''}, "The script should update automatically but if it does not, this should update it", function()
     auto_updater_config.check_interval = 0
     util.toast("Checking for updates")
     auto_updater.run_auto_update(auto_updater_config)
 end)
-misc:hyperlink("Manually Update Script","https://github.com/Kizzer2003/GrabHost", "The script should automatically update but if it doesn't, download the latest version from my github or the update button below")
