@@ -26,12 +26,12 @@ local auto_updater_config = {
     source_url="https://raw.githubusercontent.com/Kizzer2003/GrabHost/main/grabhost.pluto",
     script_relpath=SCRIPT_RELPATH,
     verify_file_begins_with=nil,
-    check_interval=3600,
+    check_interval=86400,
 }
 
 auto_updater.run_auto_update(auto_updater_config)
 
-script_version = 2.3
+script_version = "2.3.5"
 
 
 util.keep_running()
@@ -136,7 +136,7 @@ end)
 
 
 local misc = menu.list(my_root, "Misc", {''}, "")
-misc:divider("Version: 2.3")
+misc:divider("Version: 2.3.5")
 misc:hyperlink("My Github Repository - Changelog is also provided here","https://github.com/Kizzer2003/GrabHost")
 misc:action("Update Script", {''}, "The script should update automatically but if it does not, this should update it", function()
     auto_updater_config.check_interval = 0
