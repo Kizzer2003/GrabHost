@@ -8,6 +8,12 @@ I am aware of a large bug that prevents the host spoofing feature from actually 
 V3
 - Coming Soon...
 
+V2.5
+- Introduced an automatic host kicker for if the player already has host token spoofing enabled or if the player encounters issues with the easy host feature. This does not work when the player is not the host.
+- Fixed the bug that prevented the easy host feature from successfully stopping when toggled off
+- Temporarily modified the kick function until a full rework is done in V3 (text such as "You are now the host" does not work currently but this should be fixed in V3)
+- Slightly modified timings to prevent unnecessary bugs from occuring
+
 V2.3
 - Added an updater button (if it struggles to download then make an issue on Github)
 
