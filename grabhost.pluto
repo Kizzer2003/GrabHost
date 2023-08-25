@@ -22,19 +22,19 @@ end
 if auto_updater == true then error("Invalid auto-updater lib. Please delete your Stand/Lua Scripts/lib/auto-updater.lua and try again") end
 
 
-auto_updater.run_auto_update({
+local auto_updater_config = {
     source_url="https://raw.githubusercontent.com/Kizzer2003/GrabHost/main/grabhost.pluto",
     script_relpath=SCRIPT_RELPATH,
     verify_file_begins_with=nil,
     check_interval=3600,
-})
+}
 
+auto_updater.run_auto_update(auto_updater_config)
 
-script_version = 2.2
+script_version = 2.3
 
 
 util.keep_running()
-util.ensure_package_is_installed("natives-1681379138")
 util.require_natives(1681379138)
 
 if not SCRIPT_SILENT_START then
@@ -73,7 +73,6 @@ function hostspoofing(pid)
         if util.is_session_transition_active() then
             util.toast("Waiting to join session...")
             util.on_transition_finished(function()
-                util.yield()
                 local host = players.get_host_queue_position(pid)
                 if host == 0 or host == "N/A" then
                     local player = players.get_name(pid)
@@ -87,7 +86,7 @@ function hostspoofing(pid)
                             util.toast("You can't kick the developer's girlfriend :)")
                         else
                             util.toast("Kicking Host...")
-                            util.yield(500)
+                            util.yield(2500)
                             menu.trigger_commands("kick" .. player)
                             util.yield(2200)
                             local uhost = players.get_host_queue_position(players.user())
@@ -137,6 +136,11 @@ end)
 
 
 local misc = menu.list(my_root, "Misc", {''}, "")
-misc:divider("Version: 2.2")
+misc:divider("Version: 2.3")
 misc:hyperlink("My Github Repository - Changelog is also provided here","https://github.com/Kizzer2003/GrabHost")
-misc:hyperlink("Manually Update Script","https://github.com/Kizzer2003/GrabHost", "The script should automatically update but if it doesn't, download the latest version from my github")
+misc:action("Update Script", {''}, "The script should update automatically but if it does not, this should update it", function()
+    auto_updater_config.check_interval = 0
+    util.toast("Checking for updates")
+    auto_updater.run_auto_update(auto_updater_config)
+end)
+misc:hyperlink("Manually Update Script","https://github.com/Kizzer2003/GrabHost", "The script should automatically update but if it doesn't, download the latest version from my github or the update button below")
