@@ -1,6 +1,6 @@
 # GrabHost
 
-Uses the STANDAPI to automatically spoof your host token to the highest value, and then kick the host upon joining a session. Made mainly for Basic and Regular users that cannot use the Ultimate built-in version.
+Uses the STANDAPI to automatically spoof your host token to the highest value, and then kick the host upon joining a session, with other options such as only auto-kicking the host, or just enabling host token spoofing. Made mainly for Basic and Regular users that cannot use the Ultimate built-in version.
 
 
 # Changelog 
