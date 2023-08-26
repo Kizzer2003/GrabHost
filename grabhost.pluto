@@ -31,7 +31,7 @@ local auto_updater_config = {
 
 auto_updater.run_auto_update(auto_updater_config)
 
-script_version = "2.5"
+script_version = "3"
 
 
 util.keep_running()
@@ -50,11 +50,6 @@ players.add_command_hook(function(pid, root)
 end)
 
 
--- Removed the hostspoofing function and temporarily replaced it with this
--- This function will be used for the reworked version that also includes more functions
--- Util.toast() does not work in the easy host feature but that may be due to how it currently
--- functions -- Changes will be made to it in the next version anyway so the lack of text is
--- sufficient enough for now as a temp fix
 function kick()
     local playpos = players.get_host_queue_position(players.user())
     local player = players.user()
@@ -75,6 +70,7 @@ function kick()
                     util.toast("You are now the host")
                 else
                     util.toast("Something bad happened, host could not be kicked. Bailing the session")
+                    util.log("The host could not be kicked due to them being a modder, or you (the user) not being loaded into the session enough to correctly kick them. Report the latter as an issue if that happens often")
                     menu.trigger_commands("bealone")
                 end
             end
@@ -87,39 +83,112 @@ function kick()
 
 end
 
-local easyhost = menu.toggle(my_root, "Easy Host", {'ehost'}, "Works with Stand Basic and Regular. Enables Host Token Spoofing, loads you into a session then kicks the host", function(toggled)
+-- Could be improved for efficiency sake
+function sesscheck()
+    local session = util.is_session_started()
+    local userpos = players.get_host_queue_position(players.user())
+    local spoofref = menu.ref_by_command_name("hosttokenspoofing")
+    local value = menu.get_value(spoofref)
+    if value == false then
+        if session == false then
+            return
+        else
+            menu.trigger_commands("bealone")
+            util.yield(2000)
+            util.toast("Your changes have been successfully applied (host token spoofing is off)")
+        end
+    else
+        if session == true then
+            local playcount = PLAYER.GET_NUMBER_OF_PLAYERS()
+            if playcount == 1 then
+                menu.trigger_commands("gopublic")
+                util.toast("Joining New Session")
+                
+            end
+            if playcount >= 4 and userpos >= 2 then
+                menu.trigger_commands("bealone")
+                util.yield(2000)
+                util.toast("Rejoining Previous Session")
+                menu.trigger_commands("rejoin")
+                kick()
+            end
+            if playcount == 2 then
+                util.toast("There are a lack of players in the session, kicking the host would result in a session of you and 1 other player")
+            end
+            if playcount == 3 then
+                util.toast("There are a lack of players in the session, kicking the host would result in a session of you and 2 other players")
+            end
+            if playcount >= 4 and userpos == 1 then
+            end
+        elseif session == false then
+            menu.trigger_commands("gopublic")
+            util.toast("Joining Online")
+        end
+    end
+    
+
+end
+
+-- Could be improved to disable the ultimate version for conflict reasons
+menu.toggle(my_root, "Enable/Disable Host Token Spoofing", {'hostspoof'}, "If it is already on, then do not enable this.", function(toggled)
     if toggled then
+        -- local ultkick = menu.ref_by_path("Online>Spoofing>Host Token Spoofing>Kick Host When Joining As Next In Queue>Kick Host When Joining As Next In Queue")
+        -- local ultvalue = menu.get_value(ultkick)
+        -- if ultkick == true then
+        --     menu.set_value(ultkick, false)
+        -- end
         menu.trigger_commands("hosttokenspoofing on")
         menu.trigger_commands("spoofedhosttoken 0000000000000000")
-        local sessionstart = util.is_session_started(false) 
-        if not sessionstart then 
-            menu.trigger_commands("go public")
-            util.toast("Joining Online")
-        elseif sessionstart == true then
-            menu.trigger_commands("bealone")
-            util.toast("Leaving Session...")
-            util.yield(4000)
-            util.toast("Rejoining Previous Session...")
-            menu.trigger_commands("rejoin")
-        end
-        kick()
-
+        util.toast("Spoofing On")
     else
         menu.trigger_commands("hosttokenspoofing off")
-        util.toast("Host Token Spoofing is now off! Make sure you change sessions to apply remove your spoofed host token")
+        util.toast("Spoofing Off")
     end
 end)
 
+-- Could modify to try and see if host token spoofing is off already but this may be difficult
+menu.action(my_root, "Apply Changes", {'applchan'}, "This applies the host token spoofing value and activation changes but this will not do anything if there are only 2 or 3 players in the session -- Note that this will likely put you in a session by yourself if you activate this without activating host token spoofing.", function()
+    util.toast("Any changes made will not revert until the 'Enable/Disable Host Token Spoofing' feature is turned on or off")
+    sesscheck()
 
-menu.toggle_loop(my_root, "Kick Host When Next In Queue", {''}, "Similar to the built in Ultimate feature, this auto kicks the host when you are next in the queue. MAKE SURE YOU HAVE HOST TOKEN SPOOFING ENABLED FOR THIS TO ACTUALLY KICK THE HOST", function()
+end)
+
+menu.action(my_root, "Join Random Public Session", {''}, "", function()
+    menu.trigger_commands("gopublic")
+end)
+
+-- Could make it slightly faster but will need testing if that is the case
+menu.toggle_loop(my_root, "Kick Host When Next In Queue", {'quekick'}, "Similar to the built in Ultimate feature, this auto kicks the host when you are next in the queue. MAKE SURE YOU HAVE HOST TOKEN SPOOFING ENABLED FOR THIS TO ACTUALLY KICK THE HOST", function()
     kick()
     end, function()
         util.toast("Auto Kicking Is Now Off")
     
 end)
 
+menu.my_root():divider("")
+
+-- Will need further testing to ensrue it is efficient, quick and does not hog any performance
+local neweasy = menu.toggle(my_root, "All In One, Easy Host", {"easyhost"}, "Combines all features into one toggle but this may be less stable than the individual versions.", function(toggled)
+    if toggled then
+
+        menu.trigger_commands("hostspoof on")
+        util.yield(500)
+        menu.trigger_commands("quekick on")
+        menu.trigger_commands("applchan")
+
+    else
+        util.yield(1000)
+        menu.trigger_commands("hostspoof off")
+        util.yield(1000)
+        menu.trigger_commands("quekick off")
+        util.toast("If you wish to apply changes, then press 'Apply Changes'")
+    end
+
+end)
+
+
 local misc = menu.list(my_root, "Misc", {''}, "")
-misc:divider("Version: 2.5")
+misc:divider("Version: 3")
 misc:hyperlink("My Github Repository - Changelog is also provided here and you can manually update the script","https://github.com/Kizzer2003/GrabHost")
 misc:action("Update Script", {''}, "The script should update automatically but if it does not, this should update it", function()
     auto_updater_config.check_interval = 0
