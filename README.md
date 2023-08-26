@@ -6,7 +6,18 @@ I am aware of a large bug that prevents the host spoofing feature from actually 
 
 # Changelog 
 V3
-- Coming Soon...
+- Large Overhaul of the way the script functions for the efficiency and reliability of the script.
+
+- Removed the old method of kicking the host and replaced it with a newer, more efficient method that is more reliable
+
+- Added a session checking function that is used when applying changes. It scans the your session to see if you are in story mode or online, how many players are in your session and determines what to do based on values I have set
+
+- Added seperate options for the player to activate. These include: Enabling/Disabling Host Token Spoofing, Applying Changes, Joining a Random Public Session and Automatically Kicking The Host When Next In Queue -- This was done to benefit people who use specific Host Token Values, and people who have Host Token Spoofing enabled by default; as well as people who do not like automatically joining sessions straight after enabling a feature, such as me. 
+
+- Added an All In One, Easy Host button toggle. This does what the original Easy Host did, but with the improvements made to the kicking function, and utilising the session checking function too. -- Additional Note: All toggles were made seperate for the sake of reprogramming every time text did not show up due to text such as "You are now host" not appearing constantly due to confusing reasons.
+
+- If you encounter any bugs within V3, create an issue here: https://github.com/Kizzer2003/GrabHost/issues/new -- I will be making general and efficiency improvements slowly over time, but any "new" features may take longer.
+
 
 V2.5
 - Introduced an automatic host kicker for if the player already has host token spoofing enabled or if the player encounters issues with the easy host feature. This does not work when the player is not the host.
