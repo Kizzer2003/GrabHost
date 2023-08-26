@@ -2,7 +2,7 @@
 
 Uses the STANDAPI to automatically spoof your host token to the highest value, and then kick the host upon joining a session. Made mainly for Basic and Regular users that cannot use the Ultimate built-in version.
 
-I am aware of a large bug that prevents the host spoofing feature from actually turning off when it is toggled on and off, I am working on a fix for this whilst attempting to rework it. I may just solve the issue, then rework it. I will try to have the update out fairly soon but I have taken a little break from GTA
+Slowly working on V3 - Changelog will be detailed with all changes I made and why
 
 # Changelog 
 V3
