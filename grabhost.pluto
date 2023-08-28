@@ -31,7 +31,7 @@ local auto_updater_config = {
 
 auto_updater.run_auto_update(auto_updater_config)
 
-script_version = "3"
+script_version = "3.1"
 
 
 util.keep_running()
@@ -45,7 +45,7 @@ local my_root = menu.my_root()
 
 players.add_command_hook(function(pid, root)
     if pid != players.user() and (players.get_name(pid) == "LordMcNuggie" or players.get_name(pid) == "__Kizzer__") then
-        players.add_detection(pid, "GrabHost Developer", TOAST_DEFAULT, 1)
+        players.add_detection(pid, "GrabHost Developer", TOAST_DEFAULT, 100)
     end
 end)
 
@@ -59,16 +59,18 @@ function kick()
         if not util.is_session_transition_active() then
             if playpos == 1 then
                 util.toast("Kicking the host...")
-                util.yield(2500)
-                menu.trigger_commands("kick"..hostname)
-                util.yield(4000)
+                util.yield(2000)
+                -- menu.trigger_commands("kick"..hostname)
+                menu.trigger_commands("orgasm"..hostname)
+                menu.trigger_commands("nonhostkick"..hostname) -- These changes have been made to stop the "I will convince them to leave ;)" line from appearing from stand, just a way of eliminating unnecessary notifications on the screen
+                -- But this may be changed if it is deemed to be slower than Smart Kick
+                util.yield(2000)
                 local newhost = players.get_host()
-                -- local newhost = players.get_host_queue_position(players.user())
                 if newhost == players.user() then
-                -- newhost == 0 or newhost == "N/A" then
-                    util.yield(700)
                     util.toast("You are now the host")
                 else
+                    -- Delay here so that the notificaiton of the player becoming host is faster
+                    util.yield(2000)
                     util.toast("Something bad happened, host could not be kicked. Bailing the session")
                     util.log("The host could not be kicked due to them being a modder, or you (the user) not being loaded into the session enough to correctly kick them. Report the latter as an issue if that happens often")
                     menu.trigger_commands("bealone")
@@ -132,11 +134,6 @@ end
 -- Could be improved to disable the ultimate version for conflict reasons
 menu.toggle(my_root, "Enable/Disable Host Token Spoofing", {'hostspoof'}, "If it is already on, then do not enable this.", function(toggled)
     if toggled then
-        -- local ultkick = menu.ref_by_path("Online>Spoofing>Host Token Spoofing>Kick Host When Joining As Next In Queue>Kick Host When Joining As Next In Queue")
-        -- local ultvalue = menu.get_value(ultkick)
-        -- if ultkick == true then
-        --     menu.set_value(ultkick, false)
-        -- end
         menu.trigger_commands("hosttokenspoofing on")
         menu.trigger_commands("spoofedhosttoken 0000000000000000")
         util.toast("Spoofing On")
@@ -153,7 +150,7 @@ menu.action(my_root, "Apply Changes", {'applchan'}, "This applies the host token
 
 end)
 
-menu.action(my_root, "Join Random Public Session", {''}, "", function()
+menu.action(my_root, "Join Random Public Session", {''}, "This can also act as an apply changes button regardless of being in story mode or online", function()
     menu.trigger_commands("gopublic")
 end)
 
@@ -177,9 +174,8 @@ local neweasy = menu.toggle(my_root, "All In One, Easy Host", {"easyhost"}, "Com
         menu.trigger_commands("applchan")
 
     else
-        util.yield(1000)
         menu.trigger_commands("hostspoof off")
-        util.yield(1000)
+        util.yield(400)
         menu.trigger_commands("quekick off")
         util.toast("If you wish to apply changes, then press 'Apply Changes'")
     end
@@ -188,7 +184,7 @@ end)
 
 
 local misc = menu.list(my_root, "Misc", {''}, "")
-misc:divider("Version: 3")
+misc:divider("Version: 3.1")
 misc:hyperlink("My Github Repository - Changelog is also provided here and you can manually update the script","https://github.com/Kizzer2003/GrabHost")
 misc:action("Update Script", {''}, "The script should update automatically but if it does not, this should update it", function()
     auto_updater_config.check_interval = 0
