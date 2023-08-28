@@ -4,6 +4,11 @@ Uses the STANDAPI to automatically spoof your host token to the highest value, a
 
 
 # Changelog 
+V3.1
+- Altered how long it takes to kick the host, and toast that you are the host
+- Slightly modified the kicks to prevent the "I will convince them to leave ;)" notification from appearing when kicking the host (done to reduce clutter on the screen)
+- Slightly altered how long it takes to turn off spoofing and auto kick when using the all in one method
+
 V3
 - Large Overhaul of the way the script functions for the efficiency and reliability of the script.
 
