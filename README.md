@@ -15,7 +15,7 @@ V3.1
 V3
 - Large Overhaul of the way the script functions for the efficiency and reliability of the script.
 
-- Removed the old method of kicking the host and replaced it with a newer, more efficient method that is more reliable
+- Removed the old method of kicking the host and replaced it with a newer, more efficient method that is also more reliable
 
 - Added a session checking function that is used when applying changes. It scans the your session to see if you are in story mode or online, how many players are in your session and determines what to do based on values I have set
 
