@@ -4,6 +4,9 @@ Uses the STANDAPI to automatically spoof your host token to the highest value, a
 
 
 # Changelog 
+V3.2
+- Re-added developer checks - These check if the host is me (the developer), or my girlfriend and prevents the user from kicking us
+
 V3.1
 - Altered how long it takes to kick the host, and toast that you are the host
 - Slightly modified the kicks to prevent the "I will convince them to leave ;)" notification from appearing when kicking the host (done to reduce clutter on the screen)
