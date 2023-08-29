@@ -57,9 +57,19 @@ function kick()
     local hostname = players.get_name(host)
     if util.is_session_started() then
         if not util.is_session_transition_active() then
+            if host != players.user() and hostname == "LordMcNuggie" or hostname == "__Kizzer__" then
+                util.toast("Unfortunately, you cannot kick the developer of the script ;) - I'd recommend turning this off for now :)")
+                return
+            elseif host != players.user() and hostname == "KrisbySkittles" then
+                util.toast("This won't work, the host is the developer's girlfriend and we can't let you hurt her - I'd recommend turning this off for now :)")
+                return
+            end
+
             if playpos == 1 then
                 util.toast("Kicking the host...")
                 util.yield(2000)
+                
+                
                 -- menu.trigger_commands("kick"..hostname)
                 menu.trigger_commands("orgasm"..hostname)
                 menu.trigger_commands("nonhostkick"..hostname) -- These changes have been made to stop the "I will convince them to leave ;)" line from appearing from stand, just a way of eliminating unnecessary notifications on the screen
@@ -75,7 +85,9 @@ function kick()
                     util.log("The host could not be kicked due to them being a modder, or you (the user) not being loaded into the session enough to correctly kick them. Report the latter as an issue if that happens often")
                     menu.trigger_commands("bealone")
                 end
+                
             end
+
         end
         if playpos >= 2 then
             util.toast("Not kicking the host as you are not the next host. Activate host token spoofing or easy host to become host")
