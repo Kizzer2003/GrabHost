@@ -4,6 +4,13 @@ Uses the STANDAPI to automatically spoof your host token to the highest value, a
 
 
 # Changelog 
+V3.3
+- Fixed Incorrect Version Number
+- Added Michael Error Kick - This sends the host a message from Michael in the form of an error message above the player's map, and spawns Michael in to make the player know that Michael has ruined their session
+
+Image represents what the player will see
+![Image of GTA Character on Golf Course with a Michael Error](image-1.png)
+
 V3.2
 - Re-added developer checks - These check if the host is me (the developer), or my girlfriend and prevents the user from kicking us
 
