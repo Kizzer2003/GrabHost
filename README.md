@@ -9,7 +9,7 @@ V3.3
 - Added Michael Error Kick - This sends the host a message from Michael in the form of an error message above the player's map, and spawns Michael in to make the player know that Michael has ruined their session
 
 Image represents what the player will see
-![Image of GTA Character on Golf Course with a Michael Error](image-1.png)
+![Image of GTA Character on Golf Course with a Michael Error](image.png)
 
 V3.2
 - Re-added developer checks - These check if the host is me (the developer), or my girlfriend and prevents the user from kicking us
