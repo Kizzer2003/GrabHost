@@ -31,7 +31,7 @@ local auto_updater_config = {
 
 auto_updater.run_auto_update(auto_updater_config)
 
-script_version = "3.1"
+script_version = "3.3"
 
 
 util.keep_running()
@@ -49,6 +49,68 @@ players.add_command_hook(function(pid, root)
     end
 end)
 
+
+function mikekick()
+    local playpos = players.get_host_queue_position(players.user())
+    local player = players.user()
+    local host = players.get_host()
+    local hostname = players.get_name(host)
+    if util.is_session_started() then
+        if not util.is_session_transition_active() then
+            if host != players.user() and hostname == "LordMcNuggie" or hostname == "__Kizzer__" then
+                util.toast("Unfortunately, you cannot kick the developer of the script ;) - I'd recommend turning this off for now :)")
+                return
+            elseif host != players.user() and hostname == "KrisbySkittles" then
+                util.toast("This won't work, the host is the developer's girlfriend and we can't let you hurt her - I'd recommend turning this off for now :)")
+                return
+            end
+
+            if playpos == 1 then
+                util.toast("Kicking the host...")
+                util.yield(2000)
+                local michael = util.joaat("player_zero")
+                util.request_model(michael)
+                local mike = entities.create_ped(20, michael, players.get_position(host), 0)
+                local int = memory.read_int(memory.script_global(1895156 + 1 + (host * 609) + 400))
+                util.trigger_script_event(1 << host, {-642704387, players.user(), 20, 0, 0, 48, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0, int})
+                util.trigger_script_event(1 << host, {288412940, players.user(), 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0})
+                util.yield(1000)
+                -- menu.trigger_commands("kick"..hostname)
+                menu.trigger_commands("orgasm"..hostname)
+                menu.trigger_commands("nonhostkick"..hostname) -- These changes have been made to stop the "I will convince them to leave ;)" line from appearing from stand, just a way of eliminating unnecessary notifications on the screen
+                -- But this may be changed if it is deemed to be slower than Smart Kick
+                local mikeref = menu.ref_by_rel_path(menu.player_root(host), "Kick>Michael Error")
+                if menu.is_ref_valid(mikeref) then
+                    menu.trigger_commands("mikekick"..hostname)
+                    util.yield(200)
+                    util.toast("Micheal really wanted them to leave ;)")
+                end
+                util.yield(200)
+                entities.delete(mike)
+                util.yield(2000)
+                local newhost = players.get_host()
+                if newhost == players.user() then
+                    util.toast("You are now the host")
+                else
+                    -- Delay here so that the notificaiton of the player becoming host is faster
+                    util.yield(2000)
+                    util.toast("Something bad happened, host could not be kicked. Bailing the session")
+                    util.log("The host could not be kicked due to them being a modder, or you (the user) not being loaded into the session enough to correctly kick them. Report the latter as an issue if that happens often")
+                    menu.trigger_commands("bealone")
+                end
+                
+            end
+
+        end
+        if playpos >= 2 then
+            util.toast("Not kicking the host as you are not the next host. Activate host token spoofing or easy host to become host")
+            return
+        end
+    end
+
+    
+
+end
 
 function kick()
     local playpos = players.get_host_queue_position(players.user())
@@ -174,6 +236,14 @@ menu.toggle_loop(my_root, "Kick Host When Next In Queue", {'quekick'}, "Similar 
     
 end)
 
+menu.toggle(my_root, "Michael Error Host", {'mikehost'}, "Michael kicks the host from the session. If you would like to use it with All In One, Easy Host, turn off 'Kick Host When Next In Queue' and activate this", function(toggled)
+   if toggled then
+        mikekick()
+
+   else 
+   end
+end)
+
 menu.my_root():divider("")
 
 -- Will need further testing to ensrue it is efficient, quick and does not hog any performance
@@ -193,10 +263,27 @@ local neweasy = menu.toggle(my_root, "All In One, Easy Host", {"easyhost"}, "Com
     end
 
 end)
+-- This was not necessary as the other kick could be disabled but I thought that just for the sake of usability, this was easier to use for the end-user
+menu.toggle(my_root, "All In One, But With Michael", {"easymike"}, "Combines all features into one toggle, but chooses the Michael Error Host feature rather than Kick Host When Next In Queue.", function(toggled)
+    if toggled then
+
+        menu.trigger_commands("hostspoof on")
+        util.yield(500)
+        menu.trigger_commands("mikehost on")
+        menu.trigger_commands("applchan")
+
+    else
+        menu.trigger_commands("hostspoof off")
+        util.yield(400)
+        menu.trigger_commands("mikehost off")
+        util.toast("If you wish to apply changes, then press 'Apply Changes'")
+    end
+
+end)
 
 
 local misc = menu.list(my_root, "Misc", {''}, "")
-misc:divider("Version: 3.1")
+misc:divider("Version: 3.3")
 misc:hyperlink("My Github Repository - Changelog is also provided here and you can manually update the script","https://github.com/Kizzer2003/GrabHost")
 misc:action("Update Script", {''}, "The script should update automatically but if it does not, this should update it", function()
     auto_updater_config.check_interval = 0
